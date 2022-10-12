@@ -3,14 +3,17 @@ import {FaCodepen, FaStore, FaUserFriends, FaUsers} from 'react-icons/fa'
 import {useContext, useEffect} from "react";
 import {useParams, Link} from "react-router-dom";
 import Spinner from "../components/layout/Spinner"
+import RepoList from "../components/repos/RepoList";
 
 const User = () => {
 
-    const {getUser, user, loading} = useContext(GithubContext)
+    const {getUser, user, getRepos, repos, loading} = useContext(GithubContext)
     const params = useParams()
 
     useEffect(() => {
         getUser(params.login)
+        getRepos(params.login)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const {
@@ -33,6 +36,10 @@ const User = () => {
     if (loading) {
         return <Spinner/>
     }
+
+    //add https if needed....
+    const websiteUrl = blog?.startsWith('http') ? blog : 'https://' + blog
+
     return (
         <>
             <div className='w-full mx-auto lg:w-10/12'>
@@ -88,9 +95,9 @@ const User = () => {
                                 <div className='stat'>
                                     <div className='stat-title text-md'>Website</div>
                                     <div className='text-lg stat-value'>
-                                        {/*<a href={websiteUrl} target='_blank' rel='noreferrer'>*/}
-                                        {/*    {websiteUrl}*/}
-                                        {/*</a>*/}
+                                        <a href={websiteUrl} target='_blank' rel='noreferrer'>
+                                            {websiteUrl}
+                                        </a>
                                     </div>
                                 </div>
                             )}
@@ -156,7 +163,7 @@ const User = () => {
                     </div>
                 </div>
 
-                {/*<RepoList repos={repos}/>*/}
+                <RepoList repos={repos}/>
             </div>
         </>
     )
