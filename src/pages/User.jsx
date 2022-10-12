@@ -11,7 +11,7 @@ const User = () => {
 
     useEffect(() => {
         getUser(params.login)
-    }, [getUser, params.login])
+    }, [])
 
     const {
         name,
@@ -31,7 +31,7 @@ const User = () => {
     } = user
 
     if (loading) {
-        return Spinner
+        return <Spinner/>
     }
     return (
         <>
@@ -159,7 +159,7 @@ const User = () => {
                 {/*<RepoList repos={repos}/>*/}
             </div>
         </>
-    );
+    )
 };
 
 export default User;
