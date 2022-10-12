@@ -1,10 +1,12 @@
 import {useContext, useState} from 'react';
 import GithubContext from "../../context/github/GithubContext";
+import AlertContext from "../../context/alert/AlertContext"
 
 const MyComponent = () => {
     const [text, setText] = useState('');
 
-    const {users, searchUsers} = useContext(GithubContext)
+    const {users, searchUsers, clearUsers} = useContext(GithubContext)
+    const {setAlert} = useContext(AlertContext)
 
     const handleChange = (e) => {
         setText(e.target.value);
@@ -14,10 +16,16 @@ const MyComponent = () => {
         e.preventDefault()
 
         if (text === '') {
-            alert('Please actually add text to search for.')
+            setAlert('Please enter a term to search for', 'error')
         } else {
             searchUsers(text)
             setText('')
+        }
+    }
+
+    const doClear = () => {
+        if (window.confirm('Are you sure you want to clear your search?')) {
+            clearUsers()
         }
     }
 
@@ -41,7 +49,7 @@ const MyComponent = () => {
             </div>
             {users.length > 0 && (
                 <div>
-                    <button className="btn btn-ghost btn-lg">Clear</button>
+                    <button onClick={doClear} className="btn btn-ghost btn-lg">Clear</button>
                 </div>
             )}
         </div>
